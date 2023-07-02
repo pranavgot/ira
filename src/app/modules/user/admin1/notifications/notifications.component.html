@@ -1,0 +1,28 @@
+<!-- <p>notifications works!</p> -->
+<div class="heading">
+    <h1>Notifications</h1>
+    <!-- <h5><span style="color: #0076A8;">Dashboard / </span> Notifications</h5> -->
+    <!-- <ul>
+        <li><a [routerLink]="['/dashboard']">Dashboard</a>/</li>
+        <li>Notifications</li>
+    </ul> -->
+</div>
+
+<div class="consen mainContainer" *ngIf="notify == null">
+    <h5>No Notifications Found !</h5>                    
+</div>
+<div class="consen mainContainer">
+    <div class="inner-container">
+        <div *ngFor="let item of notify">
+            <mat-card  class="notification-item">
+                <!-- <div class="dds-icon" [ngClass]="item.icon" [class.some-class]="item.icon === true" style="float: right;" (click)="close(item.id)"></div> -->
+                <div class="notification-inner">
+                    <h5>{{item.title}}</h5>
+                    <p>{{item.message}}</p>
+                    <span>{{item.createdDate | date:'dd-MM-yyyy'}}</span>
+                </div>
+            </mat-card>
+        </div>
+    
+    </div>
+</div>

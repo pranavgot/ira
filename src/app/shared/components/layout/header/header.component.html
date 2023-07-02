@@ -1,0 +1,55 @@
+<!-- <p>header works!</p> -->
+<div class="client-header">
+  <!-- <img _ngcontent-jld-c34="" src="../../../assets/images/Deloitte-logo-white.svg" alt=""> -->
+  <div class="left_header">
+    <div class="dds-icon dds-icon_list__l__stroke" (click)="navColap()"></div>
+    <img _ngcontent-jld-c34="" src="../../../assets/images/Group 7819.svg"  alt="">
+    <p>Risk Insights through Analytics (RIA)</p>
+  </div>
+
+    <div class="right_header">
+        
+        <div class="dds-icon dds-icon_notification__l__stroke"></div>
+        <div class="user-menu">
+          <button mat-button [matMenuTriggerFor]="menu1">{{user?.userName}} <mat-icon>account_circle</mat-icon> <span class="dds-icon dds-icon_chevron_down__s__stroke"></span></button>
+          <mat-menu #menu1="matMenu" xPosition="after" yPosition="below" overlapTrigger="true">
+            <button mat-menu-item (click)="profile()">Profile</button>
+            <button mat-menu-item (click)="logout()">Logout</button>
+          </mat-menu>
+        </div>
+
+        
+        <!-- <div class="user">{{user?.userName}} <mat-icon>account_circle</mat-icon></div> -->
+        <!-- <div class="dds-icon dds-icon_user__l__stroke dropdown"></div> -->
+
+        <!-- <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Link 1</a>
+              <a class="dropdown-item" href="#">Link 2</a>
+              <a class="dropdown-item" href="#">Link 3</a>
+            </div>
+          </div> -->
+        <!-- <div class="user" (click)="logout()">Logout</div> -->
+
+    </div>
+
+</div>
+
+<div *ngIf="profilepopup">
+  <div class="taxt_audit-report">
+      <div class="taxt-audit-popup">
+          <div class="taxt-header popup-header">
+              <h3>Profile</h3>
+              <button type="button" class="close" aria-label="Close" (click)="closePopup()">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="popup-body">
+              <p>admin profile</p>
+          </div>
+      </div>
+  </div>
+</div>

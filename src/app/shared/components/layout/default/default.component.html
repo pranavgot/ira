@@ -1,0 +1,48 @@
+<!-- <p>default works!</p> -->
+<app-header ></app-header>
+<div class="default" [ngClass]="[navOpen?'navOp':'navColap',leftHover?'leftOpen':'leftClose']">
+    <div class="left">
+        <app-leftmenu></app-leftmenu>
+    </div>
+    <div class="main">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
+</div>
+<!-- <mat-sidenav-container class="sidenav_container">
+    <mat-sidenav mode="side">
+        <app-leftmenu></app-leftmenu>
+    </mat-sidenav>
+</mat-sidenav-container> -->
+
+
+
+<!-- <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #leftSidenav mode="side" opened [disableClose]="true">
+        <app-left-menu></app-left-menu>
+    </mat-sidenav> -->
+
+    <!-- <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+        <app-header [sidenav]="leftSidenav"></app-header>
+        <div class="main-content">
+          
+            <breadcrumb #parent>
+                <div>
+                    <ol class="breadcrumb">
+                        <span class="material-icons home-icon" (click)="home()">
+                            home
+                        </span>
+                        <ng-template ngFor let-route [ngForOf]="parent.breadcrumbs">
+                            <li *ngIf="!route.terminal" class="breadcrumb-item">
+                                <a>{{ route.displayName }}</a>
+                            </li>
+                            <li *ngIf="route.terminal" class="breadcrumb-item active" aria-current="page">{{
+                                route.displayName }}</li>
+                        </ng-template>
+                    </ol>
+                </div>
+            </breadcrumb>
+        </div>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content> -->
+<!-- </mat-sidenav-container> -->

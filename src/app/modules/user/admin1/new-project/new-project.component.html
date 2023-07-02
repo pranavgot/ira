@@ -1,0 +1,341 @@
+<div class="heading">
+    <div class="page-title-wrapper">
+        <ul>
+            <li>My Projects</li>
+            <li>Create New Project</li>
+        </ul>
+    </div>
+</div>
+<div class="consen mainContainer">
+    <div class="inner-container">
+        <mat-card>
+            <h5 class="sub-title">Project Details</h5>
+            <form [formGroup]="projectForm" (ngSubmit)="projectSubmit()">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Select Process<sup>*</sup></label>
+                        <mat-form-field appearance="fill">
+                            <mat-select class="form-control reflect-model" placeholder="Select" panelClass="selectProcess"
+                                formControlName="chooseProcess">
+                                <!-- [ngClass]="{ 'is-invalid': submited && Genericform.controls['chooseclient'].errors } -->
+                                <mat-option *ngFor="let item of processes" [value]="item">{{item.processName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Enter Project Name<sup>*</sup></label>
+                        <input type="text" class="form-control reflect-model" formControlName="projectname"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z10-9 ]/g, '').replace(/(\..*)\./g, '$1');"
+                            maxlength="50"
+                            [ngClass]="{ 'is-invalid': submited && projectForm.controls['projectname'].errors }" />
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Project Type<sup>*</sup></label>
+                                <div class="input-group" style="display:flex;align-items: center;">
+                                    <div class="flex-list">
+                                        <!-- <input type="radio" class="radio" formControlName="standalone"
+                                            value="incremental"><label>Incremental</label> -->
+                                        <!-- &nbsp;&nbsp;&nbsp; -->
+                                        <input type="radio" class="radio" formControlName="standalone"
+                                            value="Standalone"><label>Standalone</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 button-block" *ngIf="!projectcreated">
+                                <label>&nbsp;</label>
+                                <button mat-button class="submit primary" type="submit">Create</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr style="opacity: 0.2;">
+            <div *ngIf="projectcreated">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5 class="sub-title">Download Files</h5>
+                        <div class="box-container">
+                            <div class="scroll new-project-download-list">
+                                <div class="file-main" *ngFor="let item of anayticfile">
+                                    <label><span class="dds-icon dds-icon_file_xls__l__filled"></span>
+                                        {{item.templateName}}</label>
+                                    <!-- <button mat-button><span class="dds-icon dds-icon_eyeopen"></span></button> -->
+                                </div>
+                            </div>
+                            <div class="button-container">
+                                <button mat-button class="submit primary" (click)="downloadTemplates()">Download<span
+                                        class="dds-icon dds-icon_download__l__stroke"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="sub-title" *ngIf="uploadData?.length == 0">Upload Files</h5>
+                        <h5 class="sub-title" *ngIf="uploadData?.length > 0">Uploaded Files</h5>
+                        <div class="box-container upload-inner-container" *ngIf="uploadData?.length == 0">
+                            <!-- <ng-container *ngFor="let item of uploadData">
+                                {{item}}<br>
+                            </ng-container> -->
+                            <ng-container >
+                                <label for="inputfile" class="button">
+                                    <input type="file" id="inputfile" (change)="saveiputFiles($event)"
+                                        style="display: none;" multiple />
+                                    <span class="dds-icon dds-icon_upload__l__stroke icon"></span>
+                                    <h5>Drag and drop files, or <span>Browse</span></h5>
+                                    <p>Supported XLS, PDF & CSV files.</p>
+                                </label>
+                            </ng-container>
+                            
+                            <!-- <ng-container *ngIf="uploadData?.length > 0">
+                                <ng-container *ngFor="let item of uploadData">
+                                    {{item}}<br>
+                                </ng-container>
+                                <label for="inputfile1" class="button">
+                                    <input type="file" id="inputfile1" (change)="saveiputFiles($event)"
+                                        style="display: none;" multiple />
+                                    Upload More Files<span class="dds-icon dds-icon_upload__l__stroke"></span>
+                                </label>
+                                <div class="button-container">
+                                    <button mat-button class="submit primary" (click)="saveiputFiles()">Upload Files<span
+                                            class="dds-icon dds-icon_upload__l__stroke"></span>
+                                        
+                                    </button>
+                                </div>
+                            </ng-container> -->
+                        </div>
+                        <div class="box-container" *ngIf="uploadData?.length > 0">
+                            <div class="scroll new-project-download-list">
+                                <div class="file-main" *ngFor="let item of uploadData">
+                                    <label><span class="dds-icon dds-icon_file_xls__l__filled"></span>
+                                        {{item}}</label>
+                                    <!-- <button mat-button><span class="dds-icon dds-icon_eyeopen"></span></button> -->
+                                </div>
+                            </div>
+                            <div class="button-container">
+                                <label for="inputfile1" class="button">
+                                    <input type="file" id="inputfile1" (change)="saveiputFiles($event)"
+                                        style="display: none;" multiple />
+                                    Upload<span class="dds-icon dds-icon_upload__l__stroke"></span>
+                                </label>
+                                <!-- <button for="inputfile1" mat-button class="submit primary">
+                                    Upload More Files<span class="dds-icon dds-icon_upload__l__stroke"></span>
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <h5 class="sub-title">Execute Process</h5>
+                            <div class="input-group">
+                                <div class="flex-list">
+                                    <input type="radio" class="radio" [checked]="!scheduleForms"
+                                        (click)="executeProject()" name="executeProcess" value="execute"><label>Execute
+                                        Now</label>
+                                    <!-- <input type="radio" class="radio" [checked]="scheduleForms" name="executeProcess"
+                                        (click)="scheduleProject()" value="schedule"><label>Schedule</label> -->
+                                </div>
+                            </div>
+                            <!-- <input type="radio" formControlName="execute" (click)="executeProject()" value="execute">&nbsp;
+                                <label>Execute Now</label>
+                                &nbsp;&nbsp;&nbsp;
+                                <input type="radio" formControlName="execute" (click)="scheduleProject()" value="schedule">&nbsp;
+                                <label>Schedule</label> -->
+                        </div>
+
+                        <form [formGroup]="scheduleForm" *ngIf="scheduleForms">
+                            <div class="col tabs-container">
+                                <div class="row container">
+                                    <div class="col subheading" [class.active]="subtab1" (click)="changesubtab(1)">
+                                        <p class="options">Daily</p>
+                                    </div>
+                                    <div class="col subheading" [class.active]="subtab2" (click)="changesubtab(2)">
+                                        <p class="options">Weekly</p>
+                                    </div>
+                                    <div class="col subheading" [class.active]="subtab3" (click)="changesubtab(3)">
+                                        <p class="options"> Monthly</p>
+                                    </div>
+                                    <div class="strip" [ngClass]="subtab1?'tab1':subtab2?'tab2':subtab3?'tab3':''">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:20px !important;">
+                                    <div class="col-sm-6">
+                                        <div class="input-group date">
+                                            <label>Start Date</label>
+                                            <input type="date" class="form-control reflect-model"
+                                                formControlName="startdate1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group date">
+                                            <label>End Date</label>
+                                            <input type="date" class="form-control reflect-model"
+                                                formControlName="enddate1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" *ngIf="subtab2">
+                                        <div class="input-group">
+                                            <label>Week</label>
+                                            <select class="form-control reflect-model" name="days" id="days"
+                                                formControlName="day">
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                                <option value="Saturday">Saturday</option>
+                                                <option value="Sunday">Sunday</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" *ngIf="subtab3">
+                                        <div class="input-group date">
+                                            <label>Date</label>
+                                            <select class="form-control reflect-model" name="date" id="date"
+                                                formControlName="date">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group time">
+                                            <label>Time</label>
+                                            <input type="time" class="form-control reflect-model"
+                                                formControlName="time1" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" *ngIf="scheduleForms">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <label>Source<sup>*</sup></label>
+                            <mat-form-field appearance="fill">
+                                <mat-select>
+                                    <mat-option [value]="">
+                                        Select Source
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <label>Path<sup>*</sup></label>
+                            <mat-form-field>
+                                <input matInput value="">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div class="button-group" *ngIf="projectcreated">
+        <button mat-button class="cancel" type="reset" routerLink="/user/admin1/my-project">Cancel <span
+                class="dds-icon dds-icon_close__l__stroke"></span></button>
+        <button mat-button class="submit" type="submit" (click)="executeNow()">Submit <span
+                class="dds-icon dds-icon_arrow_right__l__stroke"></span></button>
+    </div>
+</div>
+
+<!--<div *ngIf="AddEventProceeding">
+    <div class="taxt_audit-report">
+        <div class="taxt-audit-popup">
+            <div class="popup-body">-->
+<!-- <i class="far fa-check-circle"></i> -->
+<!--<h3>Project Created Successfully !</h3>
+                <span class="dds-icon dds-icon_check  next"></span>
+            </div>
+            <div class="popup-footer button-group">
+                <button mat-button (click)="CloseModal()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<div *ngIf="AddEventProceeding1">
+    <div class="taxt_audit-report">
+        <div class="taxt-audit-popup">
+            <div class="taxt-header popup-header">
+                <h3>Project 01</h3>
+                <button type="button" class="close" aria-label="Close" (click)="closePopup()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="popup-body">
+                <p>Execution started you will be notified once the dashboard is
+                    generated</p>
+            </div>
+            <div class="popup-footer">
+                <button mat-button class="primary btnn" routerLink="/user/admin1/my-project"
+                    style="margin:auto;">OK</button>
+                <!-- &nbsp;
+                &nbsp;
+                <button mat-button style="width: 40%; height:35px;color: #0076A8; border-color: #0076A8;"
+                    (click)="CloseModal()">Cancel</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div *ngIf="progressBarPopup">
+    <div class="taxt_audit-report">
+        <div class="taxt-audit-popup">
+            <div class="taxt-header popup-header">
+                <h3>Uploading File(s)</h3>
+                <button class="close" (click)="progressBarPopup = false">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="popup-body">
+                <div class="upload">
+                    <ng-container *ngFor="let pb of progressBar">
+                        <div class="file-name-block"><img src="../../../assets/images/Group 4899.svg"> {{pb.file}}
+                        </div>
+                        <div class="upload-file-info">
+                            <label *ngIf="pb.isError == false">{{pb.percentage}}% <ng-container *ngIf="pb.icon"> Success
+                                    !</ng-container></label>
+                            <ng-container *ngIf="pb.isError">{{pb.errMsg}}</ng-container>
+                            <div *ngIf="pb.isError" class="ico dds-icon dds-icon_alert__l__stroke"
+                                style="color: red !important; margin-left: 84%;"></div>
+                            <div *ngIf="pb.isError == false && pb.icon" class="completedprogress"
+                                style="margin-left: 74%;"></div>
+                        </div>
+                        <div class="progress">
+                            <ng-container *ngIf="pb?.percentage != undefined">
+                                <div class="failedprogress-bar" *ngIf="pb.isError" role="progressbar"
+                                    [style.width]="pb.percentage + '%'" aria-valuenow="25" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                                <div class="progress-bar" *ngIf="pb.isError == false" role="progressbar"
+                                    [style.width]="pb.percentage + '%'" aria-valuenow="25" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

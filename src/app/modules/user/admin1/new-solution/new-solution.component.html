@@ -1,0 +1,109 @@
+<div class="consen mainContainer full-container">
+    <div>Process Name: {{process.processName}}</div>
+    <div class="toolbar-block button-group" style="padding:0px !important;">
+        <button mat-button (click)="reportData()">View Report <span class="dds-icon dds-icon_eyeopen"></span></button>
+        <button mat-button class="primary" *ngIf="assigned" [ngClass]="published?'disab':'enab'" [disabled]="published" (click)="publishSolution()" >Publish <span class="dds-icon dds-icon_arrow_right__l__stroke"></span></button>
+        <button mat-button class="primary" *ngIf="!assigned" (click)="Submit()">Submit <span class="dds-icon dds-icon_arrow_right__l__stroke"></span></button>
+    </div>
+    <!-- (click)="PBIdata.created?publishSolution():Submit()" -->
+    <div class="inner-container">
+        <div class="main">
+            <div class="report-container">
+                <powerbi-report id="embed" [ngClass]="create?'':'displ'" [embedConfig]="reportConfig">
+                </powerbi-report>
+                <powerbi-report id="embedEdit" [ngClass]="create?'displ':''" [embedConfig]="reportEditConfig">
+                </powerbi-report>
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div *ngIf="AddEventProceeding">
+        <div class="taxt_audit-report">
+            <div class="taxt-audit-popup min-max-width90">
+                <div class="taxt-header popup-header">
+                    <h3>PowerBI Report</h3>
+                    <button mat-button class="close" (click)="hideViewReport()">&times;</button>
+
+                </div>
+                <div class="popup-body" style="padding-bottom: 0px;">
+                    <div class="report-container">
+
+                        <powerbi-report id="embedView" [embedConfig]="reportViewConfig" style="height: 70vh;">
+                        </powerbi-report>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="tokenpopup">
+        <div class="taxt_audit-report">
+            <div class="taxt-audit-popup min-max-width90">
+                <div class="taxt-header popup-header">
+                    <h3>Scession End</h3>
+                    <button mat-button class="close" (click)="hideViewReport()">&times;</button>
+                </div>
+                <form [formGroup]="saveas" (ngSubmit)="ReportSave()">
+                    <div class="popup-body">
+                        <p>your power bi repot will be expired in 5 minutes </p>
+                        <input *ngIf="create" type="text" class="form-control reflect-model" formControlName="name"
+                            [ngClass]="{ 'is-invalid': submited && saveas.controls['name'].errors }"
+                            maxlength="50" />
+                    </div>
+                    <div class="popup-footer button-group">
+                        <button mat-button  (click)="CloseModal()">Cancel  <span class="report-modal-close dds-icon dds-icon_close__l__stroke"></span></button>
+                        <button mat-button class="primary" type="submit">Save <mat-icon>save</mat-icon></button>
+                        <!-- <button mat-button class="btn" (click)="" *ngIf="!create" style="background-color: #0076A8; color: white;">Save</button> -->
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- <div class="heading">
+        <h1>Solution Board</h1>
+        <h5><span style="color: #0076A8;">Dashboard / </span> Solution Board / Create New Solution</h5>
+    </div> -->
+<!-- 
+    <div>
+        <div *ngFor="let item of dataSets" class="col-sm-4 subheading">
+            <input type="checkbox" (click)="onCheck(item)" class="form-check-input">&nbsp;
+            <label class="form-check-label" for="exampleCheck1">{{item.datasetName}}</label>
+        </div>
+    </div> -->
+<!-- <button (click)="submit()">Submit</button> -->
+<!-- <iframe src="https://app.powerbi.com/reportEmbed?reportId=d8b90725-0e9c-4c1a-ae30-eb7178387568&autoAuth=true&ctid=32bc7af4-cc70-4aaa-b2bb-01cedf479aae" frameborder="0"></iframe>
+    <iframe title="RIA_Test_1.1"   style="width: -webkit-fill-available;height:700px ;" src="https://app.powerbi.com/reportEmbed?reportId=d8b90725-0e9c-4c1a-ae30-eb7178387568&autoAuth=true&ctid=32bc7af4-cc70-4aaa-b2bb-01cedf479aae" frameborder="0" allowFullScreen="true"></iframe> -->
+<!-- <iframe src="https://trinket.io/embed/python/3d8d7ce66b" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe> -->
+<!-- <div *ngIf="!isEditPowerBI" class="report-container">
+    </div> -->
+<!-- <div *ngIf="true" class="report-container">
+        <powerbi-report id="embedEdit" [embedConfig]="reportEditConfig" style="height: 700px;">
+        </powerbi-report>
+    </div> -->
+<!-- <powerbi-report id="embedEdit" [embedConfig]="reportConfig" style="height: 700px;" >
+    </powerbi-report> -->
+<!-- {{reportConfig}} -->
+<!-- <powerbi-report [embedConfig]="reportConfig" [cssClassName]="reportClass" [phasedEmbedding]="phasedEmbeddingFlag" [eventHandlers]="eventHandlersMap">
+    </powerbi-report> -->
+<!-- <iframe src="http://3.6.47.176:8080/appownsdatasample/" style="width: -webkit-fill-available;height:700px ;"
+        frameborder="0"></iframe> -->
+<!-- <iframe src="https://app.powerbi.com/reportEmbed?reportId=5a9e0eb7-d5f3-4691-8976-d1956b5ea513&autoAuth=true&ctid=32bc7af4-cc70-4aaa-b2bb-01cedf479aae" frameborder="0"></iframe> -->
+<!-- <iframe src="https://playground.powerbi.com/en-us/dev-sandbox" style="width: -webkit-fill-available;height:700px ;" frameborder="0"></iframe> -->
+<!-- <iframe src="https://sw.kovidgoyal.net/rapydscript/repl/" style="width: -webkit-fill-available;height:700px ;" frameborder="0"></iframe> -->
+<!-- <iframe src="https://www.programiz.com/python-programming/online-compiler/" style="width: -webkit-fill-available;height:700px ;" frameborder="0"></iframe> -->
+<!-- <iframe title="Test" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=267523f2-728c-44c7-8755-af9662a576ba&autoAuth=true&ctid=32bc7af4-cc70-4aaa-b2bb-01cedf479aae" frameborder="0" allowFullScreen="true"></iframe> -->
+<!-- <h6 style="padding: 70px 20px 20px 20px;">Execution started you will be notified once the dashboard is
+                        generated</h6> -->
+
+<!-- <button mat-button
+                        style="width: 40%; height:35px; background-color: #0076A8; color: white;border-radius: 0; "
+                        routerLink="/user/admin1/dashboard">Ok</button> -->
+<!-- &nbsp;
+                    &nbsp;
+                    <button mat-button style="width: 40%; height:35px;color: #0076A8; border-color: #0076A8;"
+                        (click)="CloseModal()">Cancel</button> -->
